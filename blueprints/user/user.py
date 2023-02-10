@@ -1,7 +1,8 @@
-import os
-import requests
-from urllib.parse import urlencode
-from flask import Blueprint, redirect, request
+import json
+from flask import Blueprint, request
+
+from services.auth.AuthService import AuthService
+from services.auth.dto.GoogleAuthDto import GoogleAuthDto
 
 bp_user = Blueprint("Users", __name__, url_prefix="/")
 
@@ -18,23 +19,15 @@ def get_users():
 
 @bp_user.route("users/authorize", methods=['GET'])
 def authorize():
+    auth_service = AuthService()
 
     # check if request is a google callback
     url_params = request.args
     if url_params.get('code'):
-        return {
-            'authorization_code': url_params['code']
-        }
-
-    # redirect authorization to google
-    params = {
-        "client_id": os.getenv('GOOGLE_CLIENT_ID'),
-        "scope": 'profile https://www.googleapis.com/auth/gmail.send',
-        "include_granted_scopes": 'true',
-        "response_type": 'code',
-        "access_type": 'offline',
-        "redirect_uri": 'http://localhost:5000/users/authorize'
-    }
-
-    url = 'https://accounts.google.com/o/oauth2/v2/auth?' + urlencode(params)
-    return redirect(location=url)
+        auth_dto = GoogleAuthDto(authorization_code=url_params['code'])
+        return json.dumps(obj=auth_dto.__dict__,
+                          sort_keys=False)
+    
+    # request authorization
+    return auth_service.authorize()
+    
