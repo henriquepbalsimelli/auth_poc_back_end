@@ -13,5 +13,5 @@ class GoogleAuthDto:
             'authorization_code': self.authorization_code,
             'access_token': self.access_token,
             'refresh_token': self.refresh_token,
-            'expiration': self.expiration.strftime("%d/%m/%Y, %H:%M:%S") if self.expiration else None
+            'expiration': self.expiration.strftime("%Y/%m/%d %H:%M:%S") if self.expiration else None
         }
