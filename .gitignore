@@ -1,5 +1,7 @@
-/__pycache__
+__pycache__
 .vscode
 /venv
 .env
 client_secret.json
+.gitignore
+env
