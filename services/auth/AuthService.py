@@ -34,11 +34,9 @@ class AuthService():
 
         return authorization
     
-    def get_token(self, authorization_code: str):
-        if self.__authorization_type == 'LIB':
-            return self.__get_token_by_lib(authorization_code=authorization_code)
-        else:
-            return self.__get_token_by_http(authorization_code=authorization_code)
+    def get_token(self, authorization_code: str, code: str=None, state: str=None):
+        
+        return self.__get_token_by_http(authorization_code=authorization_code)
         
 
     def __authorize_by_lib(self):
@@ -50,22 +48,17 @@ class AuthService():
             'https://www.googleapis.com/auth/gmail.send'
             ])
 
+        # Lembrando que todas as url de redirect devem estar habilitadas no projeto do Google Cloud Plataform
+        # Além disso, essas urls precisam ser iguais na obtenção do token de acesso e no token de autorização
         flow.redirect_uri = 'http://localhost:5000/get/token'
 
-        # Generate URL for request to Google's OAuth 2.0 server.
-        # Use kwargs to set optional request parameters.
         authorization_url, state = flow.authorization_url(
-            # Enable offline access so that you can refresh an access token without
-            # re-prompting the user for permission. Recommended for web server apps.
             access_type='offline',
-            # Enable incremental authorization. Recommended as a best practice.
             include_granted_scopes='true'
             )
-        
-        return {
-            'url': authorization_url,
-            'state': state
-        }
+        authorization_url
+        redirect_data = redirect(location=authorization_url, code=302)
+        return redirect_data
     
     def __authorize_by_http(self) -> str:
         scopes = [
@@ -88,11 +81,6 @@ class AuthService():
         return redirect_data
     
     
-    def __get_token_by_lib(self, authorization_code: str):
-        return GoogleAuthDto(authorization_code=authorization_code,
-                             access_token=None,
-                             refresh_token=None,
-                             expiration=None)
     
     def __get_token_by_http(self, authorization_code: str):
         body = {
