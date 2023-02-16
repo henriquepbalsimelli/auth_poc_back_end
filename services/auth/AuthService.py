@@ -56,9 +56,7 @@ class AuthService():
             access_type='offline',
             include_granted_scopes='true'
             )
-        authorization_url
-        redirect_data = redirect(location=authorization_url, code=302)
-        return redirect_data
+        return authorization_url
     
     def __authorize_by_http(self) -> str:
         scopes = [
@@ -72,7 +70,7 @@ class AuthService():
             'include_granted_scopes': 'true',
             'response_type': 'code',
             'access_type': 'offline',
-            'redirect_uri': 'http://localhost:3000'
+            'redirect_uri': 'http://localhost:5000/get/token'
         }
 
         # redirect authorization to google
@@ -88,7 +86,7 @@ class AuthService():
             'client_secret': self.__google_client_api_secret,
             'code': authorization_code,
             'grant_type': 'authorization_code',
-            'redirect_uri': 'http://localhost:3000'
+            'redirect_uri': 'http://localhost:5000/get/token'
         }
 
         response = requests.post(url='https://oauth2.googleapis.com/token', json=body)
@@ -113,3 +111,7 @@ class AuthService():
             raise NetworkException(message=f'Request Error from {response.url}',
                                    status_code=response.status_code,
                                    payload=payload)
+                    
+    def revoke(self, token):
+        response = requests.post(url=f'https://oauth2.googleapis.com/revoke?token={token}')
+        return response

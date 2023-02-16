@@ -72,3 +72,17 @@ def update_token():
         
         return error_payload, 500
     
+@bp_user.route('/revoke', methods=['POST'])
+def revoke():
+    auth_service = AuthService()
+
+    data = request.json
+    token = data.get('token')
+
+    revoke = auth_service.revoke(token=token)
+    message = json.loads(revoke.text)
+
+    return {
+        'status_code': revoke.status_code,
+        'message': message
+    }
