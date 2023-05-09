@@ -33,19 +33,15 @@ jobs:
       run: |
         pip install pytest pytest-cov
         pytest tests --doctest-modules --junitxml=junit/test-results.xml --cov=com --cov-report=xml --cov-report=html
-    - name: Criando isso com Github CLI
-      run: gh issue comment $ISSUE --body "Thank you for opening this issue!"
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        ISSUE: ${{ github.event.issue.html_url }}
-    - name: Criando issue usando API rest
+    - name: Criar Issue em caso de falha nos testes
+      if: ${{ failure() }}
       run: |
-        curl --request POST \
-        --url https://api.github.com/repos/${{ github.repository }}/issues \
-        --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
-        --header 'content-type: application/json' \
-        --data '{
-          "title": "Automated issue for commit: ${{ github.sha }}",
-          "body": "This issue was automatically created by the GitHub Action workflow **${{ github.workflow }}**. \n\n The commit hash was: _${{ github.sha }}_."
-          }' \
-        --fail
+        ACCESS_TOKEN="${{ secrets.GITHUB_TOKEN }}"
+        ISSUE_TITLE="Testes quebrados"
+        ISSUE_BODY="Alguns testes falharam no último push."
+        curl -X POST \
+          -H "Authorization: token $ACCESS_TOKEN" \
+          -H "Accept: application/vnd.github.v3+json" \
+          https://api.github.com/repos/${{ github.repository }}/issues \
+          -d "{\"title\":\"$ISSUE_TITLE\", \"body\":\"$ISSUE_BODY\"}"
+
