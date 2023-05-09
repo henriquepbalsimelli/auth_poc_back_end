@@ -42,6 +42,5 @@ jobs:
         curl -X POST \
           -H "Authorization: token $ACCESS_TOKEN" \
           -H "Accept: application/vnd.github.v3+json" \
-          https://api.github.com/repos/${{ github.repository }}/issues \
+          https://api.github.com/repos/${{ github.owner }}/${{ github.repository }}/issues \
           -d "{\"title\":\"$ISSUE_TITLE\", \"body\":\"$ISSUE_BODY\"}"
-
