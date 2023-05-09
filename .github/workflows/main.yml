@@ -30,3 +30,16 @@ jobs:
       run: |
         pip install pytest pytest-cov
         pytest tests --doctest-modules --junitxml=junit/test-results.xml --cov=com --cov-report=xml --cov-report=html
+    - name: Notificar responsável pelo push em caso de falha
+      if: ${{ failure() }}
+      uses: actions/github-script@v4
+      with:
+        github-token: ${{ secrets.TOKEN_TEST }}
+        script: |
+          const issue = await github.issues.create({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            title: 'Testes quebrados',
+            body: 'Alguns testes falharam no último push.',
+          });
+          console.log(`Issue criada: ${issue.data.html_url}`);
