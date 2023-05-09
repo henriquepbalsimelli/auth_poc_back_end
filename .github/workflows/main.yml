@@ -36,7 +36,7 @@ jobs:
     - name: Criar Issue em caso de falha nos testes
       if: ${{ failure() }}
       run: |
-        ACCESS_TOKEN=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
+        ACCESS_TOKEN=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
         curl -L \
           -X POST \
           -H "Accept: application/vnd.github+json" \
