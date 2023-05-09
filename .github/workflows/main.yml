@@ -24,4 +24,9 @@ jobs:
         python-version: "3.8.10"
     - name: Install dependencies
       run: |
-        echo 'Hello world'
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    - name: Test with pytest
+      run: |
+        pip install pytest pytest-cov
+        pytest tests.py --doctest-modules --junitxml=junit/test-results.xml --cov=com --cov-report=xml --cov-report=html
