@@ -50,7 +50,7 @@ jobs:
         coverage_percentage=$(coverage report | awk 'END{print $NF}' | cut -d '%' -f 1)
         echo $coverage_percentage
     - name: Set coverage percentage output
-      run: echo "##[set-output name=percentage;]$coverage_percentage"
+      run: echo "{percentage}={$coverage_percentage}" >> $GITHUB_OUTPUT
       env:
         coverage_percentage: ${{ steps.coverage.outputs.coverage_percentage }}
     - name: Add coverage comment
