@@ -48,7 +48,11 @@ jobs:
       id: coverage
       run: |
         coverage_percentage=$(coverage report | awk 'END{print $NF}' | cut -d '%' -f 1)
-        echo "::set-output name=percentage::$coverage_percentage"
+        echo $coverage_percentage
+    - name: Set coverage percentage output
+      run: echo "##[set-output name=percentage;]$coverage_percentage"
+      env:
+        coverage_percentage: ${{ steps.coverage.outputs.coverage_percentage }}
     - name: Add coverage comment
       if: ${{ always() }}
       uses: actions/github-script@v4
@@ -65,8 +69,14 @@ jobs:
             comment = `:x: Code coverage: ${coveragePercentage}% - Please improve test coverage.`;
           }
 
+          const github = require('@actions/github');
+          const context = github.context;
           const octokit = github.getOctokit(process.env.GITHUB_TOKEN);
-          octokit.issues.createComment({
+
+          const prNumber = context.payload.pull_request.number;
+          const comment = 'This is a test comment';
+
+          octokit.rest.issues.createComment({
             owner: context.repo.owner,
             repo: context.repo.repo,
             issue_number: prNumber,
