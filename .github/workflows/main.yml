@@ -64,6 +64,11 @@ jobs:
           const octokit = new Octokit({ auth: token });
           const prNumber = ${{ github.event.pull_request.number }};
           const coveragePercentage = "${{ steps.coverage.outputs.coverage_percentage }}";
+          const owner = ${{ github.repository_owner }}
+          console.log(owner)
+
+          const repository = ${{ github.repository }}
+          console.log(repository)
 
           let comment = '';
           if (coveragePercentage >= 80) {
