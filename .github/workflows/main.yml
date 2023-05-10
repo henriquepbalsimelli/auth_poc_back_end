@@ -69,9 +69,9 @@ jobs:
             comment = `:x: Code coverage: ${coveragePercentage}% - Please improve test coverage.`;
           }
 
-          const github = require('@actions/github');
-          const context = github.context;
-          const octokit = github.getOctokit(process.env.GITHUB_TOKEN);
+          const git = require('@actions/github');
+          const context = git.context;
+          const octokit = git.getOctokit(process.env.GITHUB_TOKEN);
 
           const prNumber = context.payload.pull_request.number;
           const comment = 'This is a test comment';
