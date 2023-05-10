@@ -55,7 +55,6 @@ jobs:
       env:
         coverage_percentage: ${{ steps.coverage.outputs.coverage_percentage }}
     - name: Add coverage comment
-      if: ${{ always() }}
       uses: actions/github-script@v4
       with:
         script: |
@@ -67,8 +66,8 @@ jobs:
           
           const prNumber = ${{ github.event.pull_request.number }}
           
-          const coveragePercentage = ${{ steps.coverage.outputs.coverage_percentage }}
-          if (!coveragePercentage){
+          let coveragePercentage = ${{ steps.coverage.outputs.coverage_percentage }}
+          if (!coveragePercentage) {
             coveragePercentage = ${{ steps.coverage.outputs.coverage }}
           }
           
