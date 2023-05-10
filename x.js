@@ -1,9 +1,3 @@
-const { Octokit } = require("@octokit/rest");
-const token = ${{ secrets.TOKEN_TEST }}
-const octokit = new Octokit({ auth: `{token}` })
-const prNumber = context.payload.pull_request.number;
-const coveragePercentage = `${{ steps.coverage.outputs.percentage }}`;
-
 let comment = '';
 if (coveragePercentage >= 80) {
     comment = `:white_check_mark: Code coverage: ${coveragePercentage}% - All tests passed!`;
@@ -15,7 +9,7 @@ await octokit.request('PATCH /repos/henriquepbalsimelli/auth_poc_back_end/pulls/
     owner: 'henriquepbalsimelli',
     repo: 'auth_poc_back_end',
     pull_number: { prNumber },
-    title: { coveragePercentage },
+    title: { comment },
     body: { comment },
     state: 'open',
     base: 'master',
