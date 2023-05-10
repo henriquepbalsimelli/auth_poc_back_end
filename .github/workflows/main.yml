@@ -62,8 +62,8 @@ jobs:
           const { Octokit } = require("@octokit/rest");
           const token = "${{ secrets.TOKEN_TEST }}";
           const octokit = new Octokit({ auth: token });
-          const prNumber = context.payload.pull_request.number;
-          const coveragePercentage = coverage_percentage
+          const prNumber = ${{ github.event.pull_request.number }};
+          const coveragePercentage = "${{ steps.coverage.outputs.coverage_percentage }}";
 
           let comment = '';
           if (coveragePercentage >= 80) {
@@ -72,7 +72,7 @@ jobs:
             comment = `:x: Code coverage: ${coveragePercentage}% - Please improve test coverage.`;
           }
 
-          await octokit.request('PATCH /repos/henriquepbalsimelli/auth_poc_back_end/pulls/{pull_number}', {
+          await octokit.request('PATCH /repos/henriquepbalsimelli/auth_poc_back_end/pulls/{prNumber}', {
             owner: 'henriquepbalsimelli',
             repo: 'auth_poc_back_end',
             pull_number: {prNumber},
