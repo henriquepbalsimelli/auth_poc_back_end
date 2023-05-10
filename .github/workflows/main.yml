@@ -90,19 +90,14 @@ jobs:
 
           const repository = "${{ github.repository }}"
 
-          let comment = ''
-          if (coveragePercentage >= 80) {
-            comment = `Code coverage: ${coveragePercentage}% - All tests passed!`
-          } else {
-            comment = `Code coverage: ${coveragePercentage}% - Please improve test coverage.`
-          }
+          let comment = `Code coverage: ${coveragePercentage}%`
 
           const response = await octokit.pulls.update(`PATCH /repos/${repository}/pulls/${prNumber}`, {
               owner: owner,
               repo: 'auth_poc_back_end',
               pull_number:  prNumber ,
               title: 'new title',
-              body: 'comment',
+              body: comment,
               state: 'open',
               base: 'master',
               headers: {
