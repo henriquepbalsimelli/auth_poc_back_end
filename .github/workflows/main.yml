@@ -102,7 +102,7 @@ jobs:
               repo: 'auth_poc_back_end',
               pull_number:  prNumber ,
               title: 'new title',
-              body: comment',
+              body: 'comment',
               state: 'open',
               base: 'master',
               headers: {
