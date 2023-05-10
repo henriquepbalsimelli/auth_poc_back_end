@@ -92,9 +92,9 @@ jobs:
 
           let comment = ''
           if (coveragePercentage >= 80) {
-            comment = `:white_check_mark: Code coverage: ${coveragePercentage}% - All tests passed!`
+            comment = `Code coverage: ${coveragePercentage}% - All tests passed!`
           } else {
-            comment = `:x: Code coverage: ${coveragePercentage}% - Please improve test coverage.`
+            comment = `Code coverage: ${coveragePercentage}% - Please improve test coverage.`
           }
 
           const response = await octokit.pulls.update(`PATCH /repos/${repository}/pulls/${prNumber}`, {
@@ -102,7 +102,7 @@ jobs:
               repo: 'auth_poc_back_end',
               pull_number:  prNumber ,
               title: 'new title',
-              body: 'BODY TESTE @',
+              body: comment',
               state: 'open',
               base: 'master',
               headers: {
