@@ -67,7 +67,7 @@ jobs:
           
           const prNumber = ${{ github.event.pull_request.number }};
           
-          const coveragePercentage = ${{ steps.coverage.outputs.coverage_percentage }};
+          const coveragePercentage = ${{ steps.coverage.outputs.coverage }};
           
           const owner = "${{ github.repository_owner }}"
 
@@ -75,9 +75,9 @@ jobs:
 
           let comment = '';
           if (coveragePercentage >= 80) {
-            comment = `:white_check_mark: Code coverage: ${coveragePercentage}% - All tests passed!`;
+            comment = `:white_check_mark: Code coverage: ${coveragePercentage}% - All tests passed!`
           } else {
-            comment = `:x: Code coverage: ${coveragePercentage}% - Please improve test coverage.`;
+            comment = `:x: Code coverage: ${coveragePercentage}% - Please improve test coverage.`
           }
 
           const response = await octokit.pulls.update(`PATCH /repos/${repository}/pulls/${prNumber}`, {
