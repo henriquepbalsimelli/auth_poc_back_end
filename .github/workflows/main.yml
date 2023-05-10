@@ -67,7 +67,10 @@ jobs:
           
           const prNumber = ${{ github.event.pull_request.number }}
           
-          const coveragePercentage = ${{ steps.coverage.outputs.coverage }}
+          const coveragePercentage = ${{ steps.coverage.outputs.coverage_percentage }}
+          if (!coveragePercentage){
+            coveragePercentage = ${{ steps.coverage.outputs.coverage }}
+          }
           
           const owner = "${{ github.repository_owner }}"
 
@@ -85,7 +88,7 @@ jobs:
               repo: 'auth_poc_back_end',
               pull_number:  prNumber ,
               title: 'new title',
-              body: 'BODY TESTE',
+              body: 'BODY TESTE @',
               state: 'open',
               base: 'master',
               headers: {
