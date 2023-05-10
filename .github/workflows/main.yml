@@ -7,9 +7,6 @@ on:
   pull_request:
     branches:
       - master
-  issues:
-    types:
-      - opened
 
 permissions:
   contents: read
