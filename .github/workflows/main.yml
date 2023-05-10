@@ -51,7 +51,7 @@ jobs:
         coverage_percentage=$(coverage report | awk 'END{print $NF}' | cut -d '%' -f 1)
         echo $coverage_percentage
     - name: Set coverage percentage output
-      run: echo "{percentage}={$coverage_percentage}" >> $GITHUB_OUTPUT
+      run: echo "{coverage_percentage}={$coverage_percentage}" >> $GITHUB_OUTPUT
       env:
         coverage_percentage: ${{ steps.coverage.outputs.coverage_percentage }}
     - name: Add coverage comment
@@ -66,10 +66,7 @@ jobs:
           
           const prNumber = ${{ github.event.pull_request.number }}
           
-          let coveragePercentage = ${{ steps.coverage.outputs.coverage_percentage }}
-          if (!coveragePercentage) {
-            coveragePercentage = ${{ steps.coverage.outputs.coverage }}
-          }
+          const coveragePercentage = ${{ steps.coverage.outputs.coverage_percentage }}
           
           const owner = "${{ github.repository_owner }}"
 
