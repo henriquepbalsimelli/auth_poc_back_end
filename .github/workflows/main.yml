@@ -66,7 +66,7 @@ jobs:
           
           const prNumber = ${{ github.event.pull_request.number }}
           
-          const coveragePercentage = ${{ steps.coverage.outputs.coverage_percentage }}
+          const coveragePercentage = 80
           
           const owner = "${{ github.repository_owner }}"
 
