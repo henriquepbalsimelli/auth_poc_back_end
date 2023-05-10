@@ -30,7 +30,7 @@ const functionn = async() => {
             }
         })
 
-        console.log(response, '123')
+        console.log(response, '2')
     }catch(error){
         console.log(error)
     }
