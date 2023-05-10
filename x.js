@@ -1,7 +1,7 @@
 const functionn = async() => {
     try{
         const { Octokit } = require("@octokit/rest");
-        const token = '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';
+        const token = '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';
         const octokit = new Octokit({ auth: token });
         const prNumber = 1080;
         const coveragePercentage = 60;
@@ -13,12 +13,12 @@ const functionn = async() => {
             comment = `:x: Code coverage: ${coveragePercentage}% - Please improve test coverage.`;
         }
 
-        const response = await octokit.request(`PATCH /repos/henriquepbalsimelli/auth_poc_back_end/pulls/${prNumber}`, {
+        const response = await octokit.pulls.update(`PATCH /repos/henriquepbalsimelli/auth_poc_back_end/pulls/${prNumber}`, {
             owner: 'henriquepbalsimelli',
             repo: 'auth_poc_back_end',
-            pull_number: { prNumber },
+            pull_number:  prNumber ,
             title: 'new title',
-            body: { comment },
+            body: 'BODY TESTE',
             state: 'open',
             base: 'master',
             headers: {
