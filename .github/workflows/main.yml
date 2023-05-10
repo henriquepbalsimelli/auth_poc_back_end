@@ -59,21 +59,21 @@ jobs:
       uses: actions/github-script@v4
       with:
         script: |
-          const { Octokit } = require("@octokit/rest");
+          const { Octokit } = require("@octokit/rest")
           
-          const token = "${{ secrets.TKN_PR }}";
+          const token = "${{ secrets.TKN_PR }}"
           
-          const octokit = new Octokit({ auth: token });
+          const octokit = new Octokit({ auth: token })
           
-          const prNumber = ${{ github.event.pull_request.number }};
+          const prNumber = ${{ github.event.pull_request.number }}
           
-          const coveragePercentage = ${{ steps.coverage.outputs.coverage }};
+          const coveragePercentage = ${{ steps.coverage.outputs.coverage }}
           
           const owner = "${{ github.repository_owner }}"
 
           const repository = "${{ github.repository }}"
 
-          let comment = '';
+          let comment = ''
           if (coveragePercentage >= 80) {
             comment = `:white_check_mark: Code coverage: ${coveragePercentage}% - All tests passed!`
           } else {
