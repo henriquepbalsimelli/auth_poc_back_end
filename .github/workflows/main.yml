@@ -77,7 +77,7 @@ jobs:
             comment = `:x: Code coverage: ${coveragePercentage}% - Please improve test coverage.`;
           }
 
-          await octokit.request(`PATCH /repos/{repository}/pulls/${prNumber}`, {
+          await octokit.request(`PATCH /repos/${repository}/pulls/${prNumber}`, {
             owner: {owner},
             repo: 'auth_poc_back_end',
             pull_number: { prNumber },
