@@ -1,4 +1,4 @@
 
 def test_sum() -> None:
     """ asd """
-    assert 2+2 == 4
+    assert 2+2 == 5
