@@ -60,7 +60,7 @@ jobs:
       with:
         script: |
           const { Octokit } = require("@octokit/rest");
-          const token = "${{ secrets.NEW_TOKEN }}";
+          const token = "${{ secrets.TKN_PR }}";
           const octokit = new Octokit({ auth: token });
           const prNumber = ${{ github.event.pull_request.number }};
           const coveragePercentage = "${{ steps.coverage.outputs.coverage_percentage }}";
