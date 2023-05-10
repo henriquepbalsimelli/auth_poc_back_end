@@ -70,11 +70,9 @@ jobs:
           }
 
           const git = require('@actions/github');
-          const context = git.context;
           const octokit = git.getOctokit(process.env.GITHUB_TOKEN);
 
           const prNumber = context.payload.pull_request.number;
-          const comment = 'This is a test comment';
 
           octokit.rest.issues.createComment({
             owner: context.repo.owner,
