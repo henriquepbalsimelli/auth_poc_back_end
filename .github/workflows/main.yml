@@ -69,12 +69,19 @@ jobs:
             comment = `:x: Code coverage: ${coveragePercentage}% - Please improve test coverage.`;
           }
 
-          const git = require('@actions/github');
-          const octokit = git.getOctokit(process.env.GITHUB_TOKEN);
+          const octokit = new Octokit({
+            auth: ${{ secrets.TOKEN_TEST }}
+          })
 
-          octokit.rest.issues.createComment({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            issue_number: prNumber,
-            body: comment
-          });
+          await octokit.request('PATCH /repos/henriquepbalsimelli/auth_poc_back_end/pulls/{prNumber}', {
+            owner: 'henriquepbalsimelli',
+            repo: 'auth_poc_back_end',
+            pull_number: prNumber,
+            title: comment,
+            body: 'PYTEST COVERAGE: `${{ steps.coverage.outputs.percentage }}`',
+            state: 'open',
+            base: 'master',
+            headers: {
+              'X-GitHub-Api-Version': '2022-11-28'
+            }
+          })
