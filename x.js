@@ -1,7 +1,7 @@
 const functionn = async() => {
     try{
         const { Octokit } = require("@octokit/rest");
-        const token = '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';
+        const token = '';
         const octokit = new Octokit({ auth: token });
         const prNumber = 1080;
         const coveragePercentage = 60;
