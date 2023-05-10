@@ -57,7 +57,6 @@ jobs:
       if: ${{ always() }}
       uses: actions/github-script@v4
       with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
         script: |
           const prNumber = context.payload.pull_request.number;
           const coveragePercentage = `${{ steps.coverage.outputs.percentage }}`;
