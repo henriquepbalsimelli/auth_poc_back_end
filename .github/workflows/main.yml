@@ -79,6 +79,18 @@ jobs:
 
           let comment = `Code coverage: ${coveragePercentage}%`
 
+          const pr = await octokit.pull.get(`GET /repos/${repository}/pulls/{prNumber}`, {
+              owner: owner,
+              repo: 'auth_poc_back_end',
+              pull_number: prNumber,
+              headers: {
+                'X-GitHub-Api-Version': '2022-11-28'
+              }
+            })
+
+          const old_body = pr.body
+          console.log(old_body)
+
           const response = await octokit.pulls.update(`PATCH /repos/${repository}/pulls/${prNumber}`, {
               owner: owner,
               repo: 'auth_poc_back_end',
