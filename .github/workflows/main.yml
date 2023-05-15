@@ -55,7 +55,9 @@ jobs:
         coverage_percentage=$(coverage report | awk 'END{print $NF}' | cut -d '%' -f 1)
         echo $coverage_percentage
         echo "coverage=$coverage_percentage" >> "$GITHUB_OUTPUT"
-
+    - name: Echo variable
+      if: ${{ always() }}
+      run: echo ${{needs.job1.outputs.output1}}
   job2:
     runs-on: ubuntu-20.04
     needs: job1
