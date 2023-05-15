@@ -40,11 +40,11 @@ def test_sum8() -> None:
  
 def test_sum9() -> None:
     """ asd """
-    assert 2+2 == 3
+    assert 2+2 == 4
 
  
 def test_sum10() -> None:
     """ asd """
-    assert 2+2 == 3
+    assert 2+2 == 4
 
  
