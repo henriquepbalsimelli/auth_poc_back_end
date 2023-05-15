@@ -1,3 +1,6 @@
+//require('dotenv').config();
+
+
 const functionn = async() => {
     try{
         const { Octokit } = require("@octokit/rest");
@@ -13,18 +16,31 @@ const functionn = async() => {
             comment = `:x: Code coverage: ${coveragePercentage}% - Please improve test coverage.`;
         }
 
-        const response = await octokit.pulls.update(`PATCH /repos/henriquepbalsimelli/auth_poc_back_end/pulls/${prNumber}`, {
+        const pr = await octokit.pulls.get(`GET /repos/henriquepbalsimelli/auth_poc_back_end/pulls/${prNumber}`, {
             owner: 'henriquepbalsimelli',
             repo: 'auth_poc_back_end',
-            pull_number:  prNumber ,
+            pull_number: prNumber,
+            headers: {
+                'X-GitHub-Api-Version': '2022-11-28'
+            }
+        })
+
+        const old_coment = pr.data.body
+
+        const new_coment = old_coment + '\rvalor da cobertura = ' + coveragePercentage + '%'
+
+        const response = await octokit.pulls.update(`PATCH /repos/henriquepbalsimelli/auth_poc_back_end/pulls/${prNumber}`, {
+            owner: owner,
+            repo: 'auth_poc_back_end',
+            pull_number: prNumber,
             title: 'new title',
-            body: 'BODY TESTE',
+            body: new_coment,
             state: 'open',
             base: 'master',
             headers: {
                 'X-GitHub-Api-Version': '2022-11-28'
             }
-        })
+        }) 
 
         console.log(response)
     }catch(error){
