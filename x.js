@@ -4,7 +4,8 @@
 const functionn = async() => {
     try{
         const { Octokit } = require("@octokit/rest");
-        const token = '';
+        const token = process.env.TKN_PR
+
         const octokit = new Octokit({ auth: token });
         const prNumber = 1080;
         const coveragePercentage = 60;
@@ -42,7 +43,7 @@ const functionn = async() => {
             }
         }) 
 
-        console.log(response)
+        console.log(response, '2')
     }catch(error){
         console.log(error)
     }
